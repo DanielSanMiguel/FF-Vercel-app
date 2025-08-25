@@ -69,7 +69,6 @@ export default async function handler(req, res) {
 
       // Actualizar Airtable
       await base(TABLE_NAME).update(records[0].id, {
-        Verificado: 'Pendiente',
         Analista(Form): analista,
         Mail(Form): mail,
         PDF: [{ url: file.data.webViewLink }],
