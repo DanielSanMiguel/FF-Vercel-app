@@ -2,40 +2,33 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Protocolo de entrega de imágenes</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
-    h1 { color: #333; }
-    select, input, button { margin: 10px 0; padding: 8px; width: 300px; }
-    .status { margin-top: 10px; font-weight: bold; }
-  </style>
+  <title>Protocolo de confidencialidad</title>
 </head>
 <body>
   <h1>Protocolo de confidencialidad en la entrega de imágenes</h1>
 
   <label for="partidoDropdown">Selecciona un partido:</label>
   <select id="partidoDropdown">
-  <option value="">Selecciona un partido</option>
+    <option value="">-- Selecciona --</option>
   </select>
-  <script src="app.js"></script>
 
   <div>
-    <p>Piloto: <span id="piloto">N/A</span></p>
-    <p>Fecha: <span id="fecha">N/A</span></p>
+    <label>Analista:</label>
+    <input id="analista" type="text">
   </div>
-
-  <label for="analistaInput">Analista:</label>
-  <input type="text" id="analistaInput" placeholder="Nombre del analista">
-
-  <label for="mailInput">Correo:</label>
-  <input type="email" id="mailInput" placeholder="correo@ejemplo.com">
-
-  <button id="submitButton">Enviar enlace de confirmación</button>
-  <p class="status" id="statusText"></p>
+  <div>
+    <label>Mail:</label>
+    <input id="mail" type="email">
+  </div>
+  <div>
+    <label>Piloto:</label>
+    <input id="piloto" type="text" readonly>
+  </div>
+  <div>
+    <label>Fecha Partido:</label>
+    <input id="fecha" type="text" readonly>
+  </div>
 
   <script src="app.js"></script>
 </body>
 </html>
-
-
