@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
             partidoSelect.innerHTML = "";
             records.forEach(r => {
                 const option = document.createElement("option");
-                option.value = r.id;
+                option.value = r.fields["ID-partido"];
                 option.textContent = `${r.fields["ID-partido"]} - ${r.fields.Piloto} (${r.fields["Fecha partido"]})`;
                 partidoSelect.appendChild(option);
             });
@@ -66,4 +66,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inicializar
     fetchPartidos();
 });
+
 
