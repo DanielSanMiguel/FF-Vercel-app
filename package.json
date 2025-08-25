@@ -17,11 +17,12 @@
     "airtable": "0.12.2"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "author": "TuNombre",
   "license": "MIT"
 }
+
 
 
 
