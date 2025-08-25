@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {},
   "dependencies": {
-    "airtable": "^1.9.1",
+    "airtable": "^0.12.2",
     "pdfkit": "^0.13.0",
     "googleapis": "^118.0.0"
   }
 }
+
 
 
 
