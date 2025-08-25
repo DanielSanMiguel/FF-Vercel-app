@@ -1,15 +1,29 @@
 {
   "name": "ff-vercel-app",
   "version": "1.0.0",
+  "description": "App de partidos con Airtable, PDFKit y Google APIs",
   "main": "index.js",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
-    "airtable": "^0.12.2",
+    "airtable": "0.12.2",
     "pdfkit": "^0.13.0",
-    "googleapis": "^118.0.0"
-  }
+    "googleapis": "^121.0.0",
+    "express": "^4.18.2"
+  },
+  "overrides": {
+    "airtable": "0.12.2"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "author": "TuNombre",
+  "license": "MIT"
 }
+
+
 
 
 
