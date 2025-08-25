@@ -14,7 +14,7 @@
 <body>
     <h1>Protocolo de confidencialidad</h1>
 
-    <label for="partidoSelect">Selecciona un ID de partido:</label>
+    <label for="partidoSelect">Selecciona un partido:</label>
     <select id="partidoSelect"></select>
 
     <label for="analistaInput">Analista:</label>
@@ -27,53 +27,9 @@
 
     <div id="status"></div>
 
-    <script>
-        async function fetchPartidos() {
-            try {
-                const res = await fetch('/api/airtable');
-                if (!res.ok) throw new Error("Error al llamar a la función del servidor");
-                
-                const records = await res.json();
-
-                const select = document.getElementById('partidoSelect');
-                select.innerHTML = '';
-
-                const partidos = records.map(r => ({
-                    id: r.id,
-                    piloto: r.fields.Piloto,
-                    fecha: r.fields["Fecha partido"]
-                }));
-
-                partidos.forEach(p => {
-                    const option = document.createElement('option');
-                    option.value = p.id;
-                    option.text = `${p.id} - ${p.piloto} (${p.fecha})`;
-                    select.appendChild(option);
-                });
-
-            } catch (err) {
-                console.error("Error al obtener partidos:", err);
-                document.getElementById('status').innerText = "Error cargando partidos.";
-            }
-        }
-
-        document.getElementById('enviarBtn').addEventListener('click', () => {
-            const analista = document.getElementById('analistaInput').value;
-            const mail = document.getElementById('mailInput').value;
-            const partidoId = document.getElementById('partidoSelect').value;
-
-            if (!analista || !mail || !partidoId) {
-                document.getElementById('status').innerText = "Todos los campos son obligatorios.";
-                return;
-            }
-
-            // Aquí llamarías a otra Serverless Function para generar PDF y enviar correo
-            document.getElementById('status').innerText = `Procesando pedido para partido ${partidoId}...`;
-        });
-
-        // Cargar partidos al inicio
-        fetchPartidos();
-    </script>
+    <!-- Vincular JS externo -->
+    <script src="app.js"></script>
 </body>
 </html>
+
 
