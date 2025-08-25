@@ -71,7 +71,7 @@ export default async function handler(req, res) {
       await base(TABLE_NAME).update(records[0].id, {
         Analista(Form): analista,
         Mail(Form): mail,
-        PDF: [{ url: file.data.webViewLink }],
+        PDF: [{ url: file.data.webContentLink }],
         Hash_PDF: hash,
       });
 
