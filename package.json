@@ -2,10 +2,11 @@
   "name": "flet-web-vercel",
   "version": "1.0.0",
   "dependencies": {
-    "airtable": "^1.9.0",
+    "airtable": "^0.12.2",
     "googleapis": "^121.0.0",
     "jszip": "^3.10.1",
     "jspdf": "^2.5.1"
   }
 }
+
 
