@@ -1,28 +1,29 @@
 import Airtable from "airtable";
 
+// Configuración de Airtable desde variables de entorno
+const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
+const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
+const AIRTABLE_TABLE = "Confirmaciones_de_Entrega"; // Cambia si tu tabla tiene otro nombre
+
 export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Método no permitido" });
+  }
+
   try {
-    const apiKey = process.env.AIRTABLE_API_KEY;
-    const baseId = process.env.AIRTABLE_BASE_ID;
+    const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(AIRTABLE_BASE_ID);
+    const records = [];
 
-    if (!apiKey || !baseId) {
-      return res.status(500).json({ error: "Variables de entorno no definidas" });
-    }
+    await base(AIRTABLE_TABLE)
+      .select({ view: "Grid view" })
+      .eachPage((pageRecords, fetchNextPage) => {
+        records.push(...pageRecords);
+        fetchNextPage();
+      });
 
-    const base = new Airtable({ apiKey }).base(baseId);
-    const records = await base("Confirmaciones_de_Entrega").select({ view: "Grid view" }).all();
-
-    const partidos = records.map(r => ({
-      id: r.id,
-      piloto: r.fields.Piloto,
-      fecha: r.fields["Fecha partido"],
-      analista: r.fields.Analista || "",
-      mail: r.fields.Mail || ""
-    }));
-
-    res.status(200).json(partidos);
+    res.status(200).json(records);
   } catch (error) {
-    console.error("Error al obtener partidos:", error);
-    res.status(500).json({ error: "Error al obtener datos de Airtable" });
+    console.error("Error al obtener partidos de Airtable:", error);
+    res.status(500).json({ error: "No se pudieron obtener los partidos" });
   }
 }
