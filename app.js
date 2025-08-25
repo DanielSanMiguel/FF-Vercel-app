@@ -30,3 +30,23 @@ async function cargarPartidos() {
 
 document.addEventListener("DOMContentLoaded", cargarPartidos);
 
+async function enviarConfirmacion() {
+  const partidoId = document.getElementById("partidoDropdown").value;
+  const analista = document.getElementById("analista").value;
+  const mail = document.getElementById("mail").value;
+
+  const response = await fetch("/api/generarPdf", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ partidoId, analista, mail })
+  });
+
+  const data = await response.json();
+
+  if (data.url) {
+    alert("PDF generado: " + data.url);
+  } else {
+    alert("Error: " + data.error);
+  }
+}
+
