@@ -2,24 +2,38 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Protocolo de confidencialidad</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocolo de entrega de imágenes</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+    h1 { color: #333; }
+    select, input, button { margin: 10px 0; padding: 8px; width: 300px; }
+    .status { margin-top: 10px; font-weight: bold; }
+  </style>
 </head>
 <body>
   <h1>Protocolo de confidencialidad en la entrega de imágenes</h1>
 
-  <label>ID Partido:</label>
-  <select id="partidoSelect"></select>
+  <label for="partidoDropdown">Selecciona un partido:</label>
+  <select id="partidoDropdown">
+    <option value="">Cargando partidos...</option>
+  </select>
 
-  <label>Analista:</label>
-  <input type="text" id="analistaInput">
+  <div>
+    <p>Piloto: <span id="piloto">N/A</span></p>
+    <p>Fecha: <span id="fecha">N/A</span></p>
+  </div>
 
-  <label>Mail:</label>
-  <input type="email" id="mailInput">
+  <label for="analistaInput">Analista:</label>
+  <input type="text" id="analistaInput" placeholder="Nombre del analista">
 
-  <button id="submitBtn">Enviar confirmación</button>
-  <p id="statusText"></p>
+  <label for="mailInput">Correo:</label>
+  <input type="email" id="mailInput" placeholder="correo@ejemplo.com">
+
+  <button id="submitButton">Enviar enlace de confirmación</button>
+  <p class="status" id="statusText"></p>
 
   <script src="app.js"></script>
 </body>
 </html>
+
