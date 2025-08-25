@@ -7,16 +7,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const fechaSpan = document.getElementById("fecha");
 
   // Función para obtener partidos desde la serverless API
-  async function fetchPartidos() {
-    try {
-      const response = await fetch("/api/partidos");
-      const partidos = await response.json();
-      return partidos;
-    } catch (error) {
-      console.error("Error al obtener partidos:", error);
-      return [];
-    }
+  async function cargarPartidos() {
+  try {
+    const response = await fetch("/api/partidos");
+    if (!response.ok) throw new Error("Error en la API");
+
+    const partidos = await response.json();
+    console.log("Partidos:", partidos);
+
+    const dropdown = document.getElementById("partidoDropdown");
+    partidos.forEach(p => {
+      const option = document.createElement("option");
+      option.value = p.id;
+      option.textContent = `${p.piloto} - ${p.fecha}`;
+      dropdown.appendChild(option);
+    });
+
+  } catch (err) {
+    console.error("Error al cargar partidos:", err);
   }
+}
 
   // Llenar dropdown con partidos
   fetchPartidos().then(partidos => {
