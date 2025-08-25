@@ -2,7 +2,6 @@ import Airtable from "airtable";
 
 export default async function handler(req, res) {
   try {
-    // Variables de entorno
     const apiKey = process.env.AIRTABLE_API_KEY;
     const baseId = process.env.AIRTABLE_BASE_ID;
 
@@ -11,15 +10,14 @@ export default async function handler(req, res) {
     }
 
     const base = new Airtable({ apiKey }).base(baseId);
-
-    const records = await base("Confirmaciones_de_Entrega")
-      .select({ view: "Grid view" })
-      .all();
+    const records = await base("Confirmaciones_de_Entrega").select({ view: "Grid view" }).all();
 
     const partidos = records.map(r => ({
       id: r.id,
       piloto: r.fields.Piloto,
-      fecha: r.fields["Fecha partido"]
+      fecha: r.fields["Fecha partido"],
+      analista: r.fields.Analista || "",
+      mail: r.fields.Mail || ""
     }));
 
     res.status(200).json(partidos);
