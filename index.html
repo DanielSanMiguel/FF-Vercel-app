@@ -1,35 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Protocolo de confidencialidad</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo de entrega de imágenes</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        label { display: block; margin-top: 15px; }
+        input, select, button { padding: 8px; width: 300px; margin-top: 5px; }
+        #status { margin-top: 20px; font-weight: bold; }
+    </style>
 </head>
 <body>
-  <h1>Protocolo de confidencialidad en la entrega de imágenes</h1>
+    <h1>Protocolo de confidencialidad</h1>
 
-  <label for="partidoDropdown">Selecciona un partido:</label>
-  <select id="partidoDropdown">
-    <option value="">-- Selecciona --</option>
-  </select>
+    <label for="partidoSelect">Selecciona un ID de partido:</label>
+    <select id="partidoSelect"></select>
 
-  <div>
-    <label>Analista:</label>
-    <input id="analista" type="text">
-  </div>
-  <div>
-    <label>Mail:</label>
-    <input id="mail" type="email">
-  </div>
-  <div>
-    <label>Piloto:</label>
-    <input id="piloto" type="text" readonly>
-  </div>
-  <div>
-    <label>Fecha Partido:</label>
-    <input id="fecha" type="text" readonly>
-  </div>
-  <button onclick="enviarConfirmacion()">Enviar confirmación</button>
-  <script src="app.js"></script>
+    <label for="analistaInput">Analista:</label>
+    <input type="text" id="analistaInput">
+
+    <label for="mailInput">Correo:</label>
+    <input type="email" id="mailInput">
+
+    <button id="enviarBtn">Enviar enlace de confirmación</button>
+
+    <div id="status"></div>
+
+    <script>
+        async function fetchPartidos() {
+            try {
+                const res = await fetch('/api/airtable');
+                if (!res.ok) throw new Error("Error al llamar a la función del servidor");
+                
+                const records = await res.json();
+
+                const select = document.getElementById('partidoSelect');
+                select.innerHTML = '';
+
+                const partidos = records.map(r => ({
+                    id: r.id,
+                    piloto: r.fields.Piloto,
+                    fecha: r.fields["Fecha partido"]
+                }));
+
+                partidos.forEach(p => {
+                    const option = document.createElement('option');
+                    option.value = p.id;
+                    option.text = `${p.id} - ${p.piloto} (${p.fecha})`;
+                    select.appendChild(option);
+                });
+
+            } catch (err) {
+                console.error("Error al obtener partidos:", err);
+                document.getElementById('status').innerText = "Error cargando partidos.";
+            }
+        }
+
+        document.getElementById('enviarBtn').addEventListener('click', () => {
+            const analista = document.getElementById('analistaInput').value;
+            const mail = document.getElementById('mailInput').value;
+            const partidoId = document.getElementById('partidoSelect').value;
+
+            if (!analista || !mail || !partidoId) {
+                document.getElementById('status').innerText = "Todos los campos son obligatorios.";
+                return;
+            }
+
+            // Aquí llamarías a otra Serverless Function para generar PDF y enviar correo
+            document.getElementById('status').innerText = `Procesando pedido para partido ${partidoId}...`;
+        });
+
+        // Cargar partidos al inicio
+        fetchPartidos();
+    </script>
 </body>
 </html>
 
