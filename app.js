@@ -1,52 +1,69 @@
-async function cargarPartidos() {
-  try {
-    const response = await fetch("/api/partidos");
-    if (!response.ok) throw new Error("Error en la API");
+document.addEventListener("DOMContentLoaded", () => {
+  const partidoSelect = document.getElementById("partido");
+  const analistaInput = document.getElementById("analista");
+  const mailInput = document.getElementById("mail");
+  const enviarBtn = document.getElementById("enviar");
+  const statusDiv = document.getElementById("status");
 
-    const partidos = await response.json();
+  // Cargar partidos desde Airtable
+  async function fetchPartidos() {
+    try {
+      const res = await fetch("/api/partidos");
+      if (!res.ok) throw new Error("No se pudo cargar los partidos");
+      const records = await res.json();
 
-    const dropdown = document.getElementById("partidoDropdown");
-    partidos.forEach(p => {
-      const option = document.createElement("option");
-      option.value = p.id;
-      option.textContent = `${p.piloto} - ${p.fecha}`;
-      dropdown.appendChild(option);
-    });
-
-    dropdown.addEventListener("change", e => {
-      const seleccionado = partidos.find(p => p.id === e.target.value);
-      if (!seleccionado) return;
-
-      document.getElementById("analista").value = seleccionado.analista;
-      document.getElementById("mail").value = seleccionado.mail;
-      document.getElementById("piloto").value = seleccionado.piloto;
-      document.getElementById("fecha").value = seleccionado.fecha;
-    });
-
-  } catch (err) {
-    console.error("Error al cargar partidos:", err);
+      // Mapear para select
+      records.forEach(r => {
+        const option = document.createElement("option");
+        option.value = r.id;
+        option.textContent = `${r.fields["ID-partido"]} - ${r.fields.Piloto} (${r.fields["Fecha partido"]})`;
+        partidoSelect.appendChild(option);
+      });
+    } catch (error) {
+      console.error("Error al obtener partidos:", error);
+      statusDiv.textContent = "Error al cargar los partidos.";
+      statusDiv.style.color = "red";
+    }
   }
-}
 
-document.addEventListener("DOMContentLoaded", cargarPartidos);
+  // Enviar formulario
+  enviarBtn.addEventListener("click", async () => {
+    const partidoId = partidoSelect.value;
+    const analista = analistaInput.value.trim();
+    const mail = mailInput.value.trim();
 
-async function enviarConfirmacion() {
-  const partidoId = document.getElementById("partidoDropdown").value;
-  const analista = document.getElementById("analista").value;
-  const mail = document.getElementById("mail").value;
+    if (!partidoId || !analista || !mail) {
+      statusDiv.textContent = "Todos los campos son obligatorios.";
+      statusDiv.style.color = "orange";
+      return;
+    }
 
-  const response = await fetch("/api/generarPdf", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ partidoId, analista, mail })
+    statusDiv.textContent = "Procesando...";
+    statusDiv.style.color = "blue";
+
+    try {
+      const res = await fetch("/api/enviar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ partidoId, analista, mail })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        statusDiv.innerHTML = `PDF generado correctamente: <a href="${data.url}" target="_blank">Ver PDF</a><br>Hash: ${data.hash}`;
+        statusDiv.style.color = "green";
+      } else {
+        throw new Error(data.error || "Error desconocido");
+      }
+    } catch (error) {
+      console.error("Error al enviar:", error);
+      statusDiv.textContent = "Error al procesar el envío.";
+      statusDiv.style.color = "red";
+    }
   });
 
-  const data = await response.json();
-
-  if (data.url) {
-    alert("PDF generado: " + data.url);
-  } else {
-    alert("Error: " + data.error);
-  }
-}
+  // Inicializar
+  fetchPartidos();
+});
 
