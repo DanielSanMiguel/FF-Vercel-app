@@ -23,7 +23,8 @@ export default async function handler(req, res) {
 
     const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(AIRTABLE_BASE_ID);
 
-    const records = await base(TABLE_NAME).select({ filterByFormula: `{ID-partido}='${partidoId}'` }).all();
+    const records = await base(TABLE_NAME).select({ filterByFormula: `RECORD_ID()='${partidoId}'` }).all();
+
     if (!records || records.length === 0) {
       return res.status(404).json({ error: "Partido no encontrado" });
     }
