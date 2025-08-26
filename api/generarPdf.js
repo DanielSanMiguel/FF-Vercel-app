@@ -2,6 +2,7 @@ import Airtable from "airtable";
 import { google } from "googleapis";
 import PDFDocument from "pdfkit";
 import stream from "stream";
+import crypto from "crypto";
 
 export default async function handler(req, res) {
   try {
@@ -24,27 +25,28 @@ export default async function handler(req, res) {
     const piloto = record.fields.Piloto;
     const fecha = record.fields["Fecha partido"];
 
-    // --- Generar PDF en memoria ---
-    const doc = new PDFDocument();
-    const buffers = [];
-    doc.on("data", buffers.push.bind(buffers));
-    doc.on("end", () => {});
+    // --- Generar PDF en memoria (Asíncrono) ---
+    const pdfBuffer = await new Promise((resolve) => {
+      const doc = new PDFDocument();
+      const buffers = [];
+      doc.on("data", buffers.push.bind(buffers));
+      doc.on("end", () => {
+        const buffer = Buffer.concat(buffers);
+        resolve(buffer);
+      });
 
-    doc.fontSize(18).text("Confirmación de Entrega", { align: "center" });
-    doc.moveDown();
-    doc.fontSize(12).text(`ID-Partido: ${partidoId}`);
-    doc.text(`Analista: ${analista}`);
-    doc.text(`Mail: ${mail}`);
-    doc.text(`Piloto: ${piloto}`);
-    doc.text(`Fecha Partido: ${fecha}`);
-    doc.moveDown();
+      // Contenido del PDF
+      doc.fontSize(18).text("Confirmación de Entrega", { align: "center" });
+      doc.moveDown();
+      doc.fontSize(12).text(`ID-Partido: ${partidoId}`);
+      doc.text(`Analista: ${analista}`);
+      doc.text(`Mail: ${mail}`);
+      doc.text(`Piloto: ${piloto}`);
+      doc.text(`Fecha Partido: ${fecha}`);
+      doc.moveDown();
 
-    // Logo opcional
-    // doc.image("static/LogoFLY-FUT.png", { width: 150, align: "center" });
-
-    doc.end();
-
-    const pdfBuffer = Buffer.concat(buffers);
+      doc.end();
+    });
 
     // --- Autenticar Google Drive ---
     const auth = new google.auth.OAuth2(
@@ -73,7 +75,7 @@ export default async function handler(req, res) {
     const file = await drive.files.create({
       requestBody: fileMetadata,
       media: media,
-      fields: "id, webViewLink"
+      fields: "id, webViewLink, webContentLink"
     });
 
     // Hacer el archivo público
@@ -81,8 +83,11 @@ export default async function handler(req, res) {
       fileId: file.data.id,
       requestBody: { role: "reader", type: "anyone" }
     });
+    
+    // Generar Hash (opcional pero recomendado)
+    const hash = crypto.createHash("sha256").update(pdfBuffer).digest("hex");
 
-    res.status(200).json({ url: file.data.webViewLink });
+    res.status(200).json({ url: file.data.webViewLink, hash });
   } catch (error) {
     console.error("Error generando PDF:", error);
     res.status(500).json({ error: "Error interno" });
