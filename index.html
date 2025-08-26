@@ -1,72 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo de Entrega de Imágenes</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
 <body>
-  <div id="login-container">
-    <h1>Acceso al Protocolo</h1>
-    <label for="passwordInput">Contraseña:</label>
-    <input type="password" id="passwordInput" placeholder="Introduce la contraseña">
-    <button id="loginBtn">Entrar</button>
-    <p id="login-error" style="color: red;"></p>
-  </div>
+    <header class="main-header">
+        <img src="/assets/LogoFLY-FUT.png" alt="Logo de la Compañía" class="logo">
+    </header>
 
-  <div id="app-container" style="display: none;">
-    <h1>Protocolo de confidencialidad</h1>
+    <main class="main-content">
+        <section id="login-container">
+            <form id="login-form">
+                <h1>Acceso al Protocolo</h1>
+                <div class="form-group">
+                    <label for="passwordInput">Contraseña:</label>
+                    <input type="password" id="passwordInput" placeholder="Introduce la contraseña" required>
+                </div>
+                <button type="submit" id="loginBtn">Entrar</button>
+                <p id="login-error" class="status-message"></p>
+            </form>
+        </section>
 
-    <label for="partidoSelect">Selecciona un partido:</label>
-    <select id="partidoSelect"></select>
-
-    <label for="analistaInput">Analista:</label>
-    <input type="text" id="analistaInput" required>
-
-    <label for="mailInput">Correo:</label>
-    <input type="email" id="mailInput" required>
-
-    <button id="enviarBtn">Enviar enlace de confirmación</button>
-
-    <div id="status"></div>
-  </div>
-
-  <script type="module" src="/app.js"></script>
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const loginContainer = document.getElementById("login-container");
-    const appContainer = document.getElementById("app-container");
-    const passwordInput = document.getElementById("passwordInput");
-    const loginBtn = document.getElementById("loginBtn");
-    const loginError = document.getElementById("login-error");
-
-    // Convertimos la función del botón en asíncrona para usar fetch
-    loginBtn.addEventListener("click", async () => {
-      const password = passwordInput.value;
-      loginError.textContent = ""; // Limpiar errores previos
-
-      try {
-        const res = await fetch("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password: password }),
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-          // Éxito: El servidor dijo que la contraseña es correcta
-          loginContainer.style.display = "none";
-          appContainer.style.display = "block";
-        } else {
-          // Fallo: El servidor dijo que la contraseña es incorrecta
-          loginError.textContent = "Contraseña incorrecta. Inténtalo de nuevo.";
-          passwordInput.value = "";
-        }
-      } catch (error) {
-        loginError.textContent = "Error al conectar con el servidor.";
-      }
-    });
-
-    passwordInput.addEventListener("keyup", (event) => {
-      if (event.key === "Enter") {
-        loginBtn.click();
-      }
-    });
-  });
-</script>
+        <section id="app-container" class="hidden">
+            <form id="data-form">
+                <h1>Protocolo de Confidencialidad</h1>
+                <div class="form-group">
+                    <label for="partidoSelect">Selecciona un partido:</label>
+                    <select id="partidoSelect"></select>
+                </div>
+                <div class="form-group">
+                    <label for="analistaInput">Analista:</label>
+                    <input type="text" id="analistaInput" required>
+                </div>
+                <div class="form-group">
+                    <label for="mailInput">Correo:</label>
+                    <input type="email" id="mailInput" required>
+                </div>
+                <button type="button" id="enviarBtn">Enviar enlace de confirmación</button>
+                <div id="status" class="status-message"></div>
+            </form>
+        </section>
+    </main>
+    
+    <script type="module" src="/app.js"></script>
+    <script src="/login.js"></script>
 </body>
-
+</html>
