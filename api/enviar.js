@@ -61,21 +61,22 @@ export default async function handler(req, res) {
       doc.moveDown();
       
       // Títulos de campo con color y tamaño de fuente diferentes
-      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text("ID-partido: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
+      doc.font('Helvetica-Bold').fontSize(14).fillColor('#2c3e50').text("ID-partido: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
       doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${row["ID-partido"]}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
       doc.moveDown();
       
-      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text("Analista: ", { continued: true, bold: true });
+      doc.font('Helvetica-Bold').fontSize(14).fillColor('#2c3e50').text("Analista: ", { continued: true, bold: true });
       doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${analista}`, { bold: false });
       doc.moveDown();
 
-      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text("Piloto: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
+      doc.font('Helvetica-Bold').fontSize(14).fillColor('#2c3e50').text("Piloto: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
       doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${row.Piloto}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
       doc.moveDown();  
-      
-      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`Fecha Partido: ${row["Fecha partido"]}`);
-      doc.moveDown();
-      
+
+      doc.font('Helvetica-Bold').fontSize(14).fillColor('#2c3e50').text("Fecha Partido: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
+      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${row["Fecha partido"]}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
+      doc.moveDown();  
+ 
       // Añadir un separador visual
       doc.strokeColor('#bdc3c7'); // Color gris para la línea
       doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
