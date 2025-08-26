@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const mail = mailInput.value.trim();
         const Numero_unico = uuidv4();
 
-        if (!partidoId || !analista || !mail) {
+        if (!partidoId || !analista || !mail || !Numero_unico) {
             statusDiv.textContent = "Todos los campos son obligatorios.";
             statusDiv.style.color = "orange";
             return;
@@ -102,4 +102,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inicializar
     fetchPartidos();
 });
+
 
