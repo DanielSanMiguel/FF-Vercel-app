@@ -24,7 +24,6 @@ export default async function handler(req, res) {
 
     const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(AIRTABLE_BASE_ID);
 
-    // Usa find() que es más directo si ya tienes el ID del registro
     const record = await base(TABLE_NAME).find(partidoId);
 
     if (!record) {
@@ -42,7 +41,7 @@ export default async function handler(req, res) {
         const buffer = Buffer.concat(buffers);
         resolve(buffer);
       });
-
+    
       // Agrega la imagen del logo
       const logoPath = path.resolve("./assets/LogoFLY-FUT.png");
       doc.image(logoPath, { width: 150, align: "center" });
@@ -72,6 +71,7 @@ export default async function handler(req, res) {
       doc.text("El registro se conserva para fines de auditoría y resolución de disputas.");
       
       doc.end();
+    }); // <-- Aquí se cierra la promesa correctamente
 
     // --- Autenticación y subida a Google Drive ---
     const oAuth2Client = new google.auth.OAuth2(
