@@ -71,16 +71,17 @@ export default async function handler(req, res) {
 
       doc.font('Helvetica-Bold').fontSize(14).fillColor('#2c3e50').text("Piloto: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
       doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${row.Piloto}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
-      doc.moveDown();  
+      doc.moveDown();
 
       doc.font('Helvetica-Bold').fontSize(14).fillColor('#2c3e50').text("Fecha Partido: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
       doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${row["Fecha partido"]}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
-      doc.moveDown();  
+      doc.moveDown();
  
       // Añadir un separador visual
       doc.strokeColor('#bdc3c7'); // Color gris para la línea
       doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
       doc.moveDown();
+      doc.moveDown();  
       
       // Texto legal en un color más neutro
       doc.fontSize(10).fillColor('#7f8c8d').text("La confirmación de su recepción constituyen una aceptación expresa de la entrega física del material identificado en este documento, así como la asunción de su custodia.", { align: "justify" });
