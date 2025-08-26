@@ -27,9 +27,15 @@ body {
 /* Encabezado */
 .main-header {
     margin-bottom: 2rem;
+    /* Añadido: Iguala el ancho al del contenedor principal */
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
 }
 .logo {
-    max-width: 500px;
+    /* Modificado: Haz que la imagen ocupe el 100% de su contenedor */
+    width: 100%;
+    display: block; /* Evita espacios extra debajo de la imagen */
 }
 
 /* Contenedor principal centrado */
@@ -112,5 +118,6 @@ button:disabled {
 .status-success {
     color: var(--success-color);
 }
+
 
 
