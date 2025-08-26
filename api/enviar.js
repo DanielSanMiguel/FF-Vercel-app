@@ -3,6 +3,7 @@ import PDFDocument from "pdfkit";
 import { google } from "googleapis";
 import crypto from "crypto";
 import stream from "stream";
+import path from "path";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -42,14 +43,25 @@ export default async function handler(req, res) {
         resolve(buffer);
       });
 
-      // Contenido del PDF
-      doc.fontSize(20).text("Confirmación de Entrega", { align: "center" });
+      // Agrega la imagen del logo
+      const logoPath = path.resolve("./assets/LogoFLY-FUT.png");
+      doc.image(logoPath, { width: 150, align: "center" });
+
       doc.moveDown();
-      doc.fontSize(14).text(`ID Partido: ${row["ID-partido"]}`);
-      doc.text(`Piloto: ${row.Piloto}`);
-      doc.text(`Fecha: ${row["Fecha partido"]}`);
+      doc.fontSize(20).text("FLY-FUT", { align: "left" });
+      doc.fontSize(16).text("Confirmación de Entrega", { align: "center" });
+      doc.moveDown();
+      doc.fontSize(12).text(`ID-partido: ${row["ID-partido"]}`);
       doc.text(`Analista: ${analista}`);
-      doc.text(`Mail: ${mail}`);
+      doc.text(`Piloto: ${row.Piloto}`);
+      doc.text(`Fecha Partido: ${row["Fecha partido"]}`);
+      doc.moveDown();
+      doc.fontSize(10).text("La confirmación de su recepción constituyen una aceptación expresa de la entrega física del material identificado en este documento, así como la asunción de su custodia.", { align: "justify" });
+      doc.moveDown();
+      doc.text("Esta confirmación constituye una firma electrónica simple y queda asociada a la identidad del receptor, la fecha y hora de confirmación y la descripción del material entregado.");
+      doc.moveDown();
+      doc.text("El registro se conserva para fines de auditoría y resolución de disputas.");
+      
       doc.end();
     });
 
