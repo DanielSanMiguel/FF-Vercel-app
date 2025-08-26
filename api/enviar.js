@@ -11,9 +11,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { partidoId, analista, mail } = req.body;
+    const { partidoId, analista, mail, Numero_unico  } = req.body;
 
-    if (!partidoId || !analista || !mail) {
+    if (!partidoId || !analista || !mail || !Numero_unico) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
@@ -136,6 +136,8 @@ export default async function handler(req, res) {
       "Mail(Form)": mail,
       "PDF": [{ url: file.data.webContentLink }],
       "Hash_PDF": hash,
+      "Codigo_unico": Numero_unico,
+      "Verificado": "Pendiente"
     });
 
     // --- Enviar la respuesta final ---
