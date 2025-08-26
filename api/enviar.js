@@ -44,9 +44,12 @@ export default async function handler(req, res) {
     
       // Agrega la imagen del logo
       const logoPath = path.resolve("./assets/LogoFLY-FUT.png");
-      doc.image(logoPath, { width: 150, align: "center" });
-      
+      const logoWidth = 150; // El mismo ancho que especificaste antes
+      const pageWidth = doc.page.width;
+      const centerPosition = (pageWidth - logoWidth) / 2;
+      doc.image(logoPath, centerPosition, doc.y, { width: logoWidth });
       doc.moveDown();
+      
       // Título principal en negrita y color personalizado
       doc.fontSize(20).fillColor('#2c3e50').text("Confirmación de Entrega", { align: "center" });
       doc.moveDown();
