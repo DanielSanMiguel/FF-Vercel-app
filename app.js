@@ -102,5 +102,3 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inicializar
     fetchPartidos();
 });
-
-
