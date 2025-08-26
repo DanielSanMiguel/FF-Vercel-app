@@ -57,12 +57,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const partidoId = partidoSelect.value;
         const analista = analistaInput.value.trim();
         const mail = mailInput.value.trim();
+        // Patrón para validar un formato de email simple
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const Numero_unico = uuidv4();
 
         if (!partidoId || !analista || !mail || !Numero_unico) {
             statusDiv.textContent = "Todos los campos son obligatorios.";
             statusDiv.style.color = "orange";
             return;
+        }
+
+        if (!emailRegex.test(mail)) {
+        statusDiv.textContent = "Por favor, introduce un formato de correo electrónico válido.";
+        statusDiv.style.color = "orange";
+        return;
         }
 
         statusDiv.textContent = "Procesando...";
@@ -103,4 +111,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inicializar
     fetchPartidos();
 });
+
 
