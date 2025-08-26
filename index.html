@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocolo de entrega de imágenes</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        label { display: block; margin-top: 15px; }
-        input, select, button { padding: 8px; width: 300px; margin-top: 5px; }
-        #status { margin-top: 20px; font-weight: bold; }
-    </style>
-</head>
 <body>
+  <div id="login-container">
+    <h1>Acceso al Protocolo</h1>
+    <label for="passwordInput">Contraseña:</label>
+    <input type="password" id="passwordInput" placeholder="Introduce la contraseña">
+    <button id="loginBtn">Entrar</button>
+    <p id="login-error" style="color: red;"></p>
+  </div>
+
+  <div id="app-container" style="display: none;">
     <h1>Protocolo de confidencialidad</h1>
 
     <label for="partidoSelect">Selecciona un partido:</label>
@@ -26,17 +22,50 @@
     <button id="enviarBtn">Enviar enlace de confirmación</button>
 
     <div id="status"></div>
+  </div>
 
-    <!-- Vincular JS externo -->
-    <script type="module" src="/app.js"></script>
-    
+  <script type="module" src="/app.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const loginContainer = document.getElementById("login-container");
+    const appContainer = document.getElementById("app-container");
+    const passwordInput = document.getElementById("passwordInput");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("login-error");
+
+    // Convertimos la función del botón en asíncrona para usar fetch
+    loginBtn.addEventListener("click", async () => {
+      const password = passwordInput.value;
+      loginError.textContent = ""; // Limpiar errores previos
+
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: password }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          // Éxito: El servidor dijo que la contraseña es correcta
+          loginContainer.style.display = "none";
+          appContainer.style.display = "block";
+        } else {
+          // Fallo: El servidor dijo que la contraseña es incorrecta
+          loginError.textContent = "Contraseña incorrecta. Inténtalo de nuevo.";
+          passwordInput.value = "";
+        }
+      } catch (error) {
+        loginError.textContent = "Error al conectar con el servidor.";
+      }
+    });
+
+    passwordInput.addEventListener("keyup", (event) => {
+      if (event.key === "Enter") {
+        loginBtn.click();
+      }
+    });
+  });
+</script>
 </body>
-</html>
-
-
-
-
-
-
-
-
