@@ -42,40 +42,41 @@ document.addEventListener("DOMContentLoaded", () => {
         statusDiv.style.color = "blue";
 
         try {
-  const res = await fetch("/api/enviar", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ partidoId, analista, mail })
-  });
-
-  // Leer la respuesta como texto primero
-  const text = await res.text();
-  let data;
-  try {
-    data = JSON.parse(text);
-  } catch {
-    console.error("Respuesta no JSON:", text);
-    statusDiv.textContent = "Error inesperado del servidor.";
-    statusDiv.style.color = "red";
-    return;
-  }
-
-  if (res.ok) {
-    statusDiv.innerHTML = `PDF generado correctamente: <a href="${data.url}" target="_blank">Ver PDF</a><br>Hash: ${data.hash}`;
-    statusDiv.style.color = "green";
-  } else {
-    throw new Error(data.error || "Error desconocido");
-  }
-} catch (error) {
-  console.error("Error al enviar:", error);
-  statusDiv.textContent = "Error al procesar el envío.";
-  statusDiv.style.color = "red";
-}
+          const res = await fetch("/api/enviar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ partidoId, analista, mail })
+          });
+        
+          // Leer la respuesta como texto primero
+          const text = await res.text();
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch {
+            console.error("Respuesta no JSON:", text);
+            statusDiv.textContent = "Error inesperado del servidor.";
+            statusDiv.style.color = "red";
+            return;
+          }
+        
+          if (res.ok) {
+            statusDiv.innerHTML = `PDF generado correctamente: <a href="${data.url}" target="_blank">Ver PDF</a><br>Hash: ${data.hash}`;
+            statusDiv.style.color = "green";
+          } else {
+            throw new Error(data.error || "Error desconocido");
+          }
+        } catch (error) {
+          console.error("Error al enviar:", error);
+          statusDiv.textContent = "Error al procesar el envío.";
+          statusDiv.style.color = "red";
+        }
 
 
     // Inicializar
     fetchPartidos();
 });
+
 
 
 
