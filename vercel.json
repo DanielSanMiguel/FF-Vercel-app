@@ -1,12 +1,32 @@
 {
   "rewrites": [
     {
-      "source": "/api/enviar",
-      "destination": "/api/enviar.js"
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     },
     {
-      "source": "/api/partidos",
-      "destination": "/api/partidos.js"
+      "src": "api/*.js",
+      "use": "@vercel/node"
     }
   ]
 }
