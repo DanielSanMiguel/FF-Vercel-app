@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "vercel dev",
-    "build": "echo 'No build step required for static site'"
+    "build": "vite build"
   },
   "engines": {
     "node": "22.x"
