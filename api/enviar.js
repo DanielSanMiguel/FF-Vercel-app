@@ -44,10 +44,11 @@ export default async function handler(req, res) {
     
       // Agrega la imagen del logo
       const logoPath = path.resolve("./assets/LogoFLY-FUT.png");
-      const logoWidth = 150; // El mismo ancho que especificaste antes
+      const logoWidth = 200; // El mismo ancho que especificaste antes
       const pageWidth = doc.page.width;
       const centerPosition = (pageWidth - logoWidth) / 2;
       doc.image(logoPath, centerPosition, doc.y, { width: logoWidth });
+      doc.moveDown();
       doc.moveDown();
       
       // Título principal en negrita y color personalizado
@@ -60,10 +61,24 @@ export default async function handler(req, res) {
       doc.moveDown();
       
       // Títulos de campo con color y tamaño de fuente diferentes
-      doc.fontSize(14).fillColor('#34495e').text(`ID-partido: ${row["ID-partido"]}`);
-      doc.text(`Analista: ${analista}`);
-      doc.text(`Piloto: ${row.Piloto}`);
+      doc.text("ID-partido: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
+      doc.text(`${row["ID-partido"]}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
+      doc.moveDown();
+      
+      doc.text("Analista: ", { continued: true, bold: true });
+      doc.text(`${analista}`, { bold: false });
+      doc.moveDown();
+
+      doc.text("Piloto: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
+      doc.text(`${row.Piloto}}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
+      doc.moveDown();  
+      
       doc.text(`Fecha Partido: ${row["Fecha partido"]}`);
+      doc.moveDown();
+      
+      // Añadir un separador visual
+      doc.strokeColor('#bdc3c7'); // Color gris para la línea
+      doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
       doc.moveDown();
       
       // Texto legal en un color más neutro
