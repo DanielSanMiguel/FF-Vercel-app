@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       doc.moveDown();
       
       // Título principal en negrita y color personalizado
-      doc.fontSize(22).fillColor('#2c3e50').text("Confirmación de Entrega", { align: "center" });
+      doc.font('Helvetica-Bold').fontSize(26).fillColor('#2c3e50').text("Confirmación de Entrega", { align: "center" });
       doc.moveDown();
       
       // Añadir un separador visual
