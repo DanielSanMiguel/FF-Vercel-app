@@ -24,18 +24,10 @@ body {
     min-height: 100vh;
 }
 
-/* Encabezado */
-.main-header {
-    margin-bottom: 2rem;
-    /* Añadido: Iguala el ancho al del contenedor principal */
-    width: 100%;
-    max-width: 500px;
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
-}
 .logo {
-    /* Modificado: Haz que la imagen ocupe el 100% de su contenedor */
-    width: 100%;
-    display: block; /* Evita espacios extra debajo de la imagen */
+    display: block; /* Necesario para poder centrar con margen */
+    margin: 0 auto 2rem; /* Centra horizontalmente y añade un margen inferior */
+    max-width: 400px; /* Ajusta el tamaño máximo del logo como prefieras */
 }
 
 /* Contenedor principal centrado */
@@ -118,6 +110,7 @@ button:disabled {
 .status-success {
     color: var(--success-color);
 }
+
 
 
 
