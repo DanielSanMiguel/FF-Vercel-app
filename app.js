@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (res.ok) {
             statusDiv.innerHTML = `PDF generado correctamente: <a href="${data.url}" target="_blank">Ver PDF</a><br>Hash: ${data.hash}`;
             statusDiv.style.color = "green";
+            await fetchPartidos();
           } else {
             throw new Error(data.error || "Error desconocido");
           }
@@ -102,3 +103,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inicializar
     fetchPartidos();
 });
+
