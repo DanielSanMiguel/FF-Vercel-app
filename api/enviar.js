@@ -44,34 +44,34 @@ export default async function handler(req, res) {
       });
 
       // Agrega la imagen del logo
-const logoPath = path.resolve("./assets/LogoFLY-FUT.png");
-doc.image(logoPath, { width: 150, align: "center" });
-
-doc.moveDown();
-// Título principal en negrita y color personalizado
-doc.fontSize(20).fillColor('#2c3e50').text("Confirmación de Entrega", { align: "center" });
-doc.moveDown();
-
-// Añadir un separador visual
-doc.strokeColor('#bdc3c7'); // Color gris para la línea
-doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
-doc.moveDown();
-
-// Títulos de campo con color y tamaño de fuente diferentes
-doc.fontSize(14).fillColor('#34495e').text(`ID-partido: ${row["ID-partido"]}`);
-doc.text(`Analista: ${analista}`);
-doc.text(`Piloto: ${row.Piloto}`);
-doc.text(`Fecha Partido: ${row["Fecha partido"]}`);
-doc.moveDown();
-
-// Texto legal en un color más neutro
-doc.fontSize(10).fillColor('#7f8c8d').text("La confirmación de su recepción constituyen una aceptación expresa de la entrega física del material identificado en este documento, así como la asunción de su custodia.", { align: "justify" });
-doc.moveDown();
-doc.text("Esta confirmación constituye una firma electrónica simple y queda asociada a la identidad del receptor, la fecha y hora de confirmación y la descripción del material entregado.");
-doc.moveDown();
-doc.text("El registro se conserva para fines de auditoría y resolución de disputas.");
-
-doc.end();
+      const logoPath = path.resolve("./assets/LogoFLY-FUT.png");
+      doc.image(logoPath, { width: 150, align: "center" });
+      
+      doc.moveDown();
+      // Título principal en negrita y color personalizado
+      doc.fontSize(20).fillColor('#2c3e50').text("Confirmación de Entrega", { align: "center" });
+      doc.moveDown();
+      
+      // Añadir un separador visual
+      doc.strokeColor('#bdc3c7'); // Color gris para la línea
+      doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+      doc.moveDown();
+      
+      // Títulos de campo con color y tamaño de fuente diferentes
+      doc.fontSize(14).fillColor('#34495e').text(`ID-partido: ${row["ID-partido"]}`);
+      doc.text(`Analista: ${analista}`);
+      doc.text(`Piloto: ${row.Piloto}`);
+      doc.text(`Fecha Partido: ${row["Fecha partido"]}`);
+      doc.moveDown();
+      
+      // Texto legal en un color más neutro
+      doc.fontSize(10).fillColor('#7f8c8d').text("La confirmación de su recepción constituyen una aceptación expresa de la entrega física del material identificado en este documento, así como la asunción de su custodia.", { align: "justify" });
+      doc.moveDown();
+      doc.text("Esta confirmación constituye una firma electrónica simple y queda asociada a la identidad del receptor, la fecha y hora de confirmación y la descripción del material entregado.");
+      doc.moveDown();
+      doc.text("El registro se conserva para fines de auditoría y resolución de disputas.");
+      
+      doc.end();
 
     // --- Autenticación y subida a Google Drive ---
     const oAuth2Client = new google.auth.OAuth2(
