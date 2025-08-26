@@ -67,12 +67,12 @@ export default async function handler(req, res) {
 
       const file = await drive.files.create({ requestBody: fileMetadata, media, fields: "id, webViewLink" });
 
-      // Actualizar Airtable
+      // Actualizar Airtable - ¡CORREGIDO AQUÍ!
       await base(TABLE_NAME).update(records[0].id, {
-        Analista(Form): analista,
-        Mail(Form): mail,
-        PDF: [{ url: file.data.webContentLink }],
-        Hash_PDF: hash,
+        "Analista(Form)": analista,
+        "Mail(Form)": mail,
+        "PDF": [{ url: file.data.webContentLink }],
+        "Hash_PDF": hash,
       });
 
       return res.status(200).json({ success: true, url: file.data.webViewLink, hash });
