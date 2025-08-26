@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 document.addEventListener("DOMContentLoaded", () => {
     const partidoSelect = document.getElementById("partidoSelect");
     const analistaInput = document.getElementById("analistaInput");
@@ -56,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const partidoId = partidoSelect.value;
         const analista = analistaInput.value.trim();
         const mail = mailInput.value.trim();
+        const Numero_unico = uuidv4();
 
         if (!partidoId || !analista || !mail) {
             statusDiv.textContent = "Todos los campos son obligatorios.";
@@ -70,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const res = await fetch("/api/enviar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ partidoId, analista, mail })
+            body: JSON.stringify({ partidoId, analista, mail, Numero_unico  })
           });
         
           const text = await res.text();
@@ -100,3 +102,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inicializar
     fetchPartidos();
 });
+
