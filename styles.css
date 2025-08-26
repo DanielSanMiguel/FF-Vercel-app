@@ -1,39 +1,114 @@
+/* Definición de variables de color y fuentes para fácil mantenimiento */
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --background-color: #f4f7f6;
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --border-color: #ddd;
+    --font-family: Arial, sans-serif;
+}
+
+/* Estilos generales del body */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  text-align: center;
-  padding: 40px;
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
-.container {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 500px;
-  margin: auto;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+/* Encabezado */
+.main-header {
+    margin-bottom: 2rem;
+}
+.logo {
+    max-width: 200px;
 }
 
-input, select, button {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+/* Contenedor principal centrado */
+.main-content {
+    background-color: var(--container-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
 }
 
+h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+/* Grupo de formulario (label + input) */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+
+/* Estilos de botones */
 button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+    background-color: var(--primary-hover);
 }
 
-#status {
-  margin-top: 20px;
-  font-weight: bold;
+/* Botón deshabilitado durante la carga */
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Mensajes de estado y error */
+.status-message {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: bold;
+    min-height: 1.2em; /* Evita que el layout salte al aparecer el texto */
+}
+
+/* Clases para JS */
+.hidden {
+    display: none;
+}
+
+.status-error {
+    color: var(--error-color);
+}
+.status-success {
+    color: var(--success-color);
 }
