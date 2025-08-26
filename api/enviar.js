@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       doc.moveDown();
       
       // Título principal en negrita y color personalizado
-      doc.fontSize(20).fillColor('#2c3e50').text("Confirmación de Entrega", { align: "center" });
+      doc.fontSize(22).fillColor('#2c3e50').text("Confirmación de Entrega", { align: "center" });
       doc.moveDown();
       
       // Añadir un separador visual
@@ -61,19 +61,19 @@ export default async function handler(req, res) {
       doc.moveDown();
       
       // Títulos de campo con color y tamaño de fuente diferentes
-      doc.text("ID-partido: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
-      doc.text(`${row["ID-partido"]}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
+      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text("ID-partido: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
+      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${row["ID-partido"]}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
       doc.moveDown();
       
-      doc.text("Analista: ", { continued: true, bold: true });
-      doc.text(`${analista}`, { bold: false });
+      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text("Analista: ", { continued: true, bold: true });
+      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${analista}`, { bold: false });
       doc.moveDown();
 
-      doc.text("Piloto: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
-      doc.text(`${row.Piloto}}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
+      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text("Piloto: ", { continued: true, bold: true }); // Imprime la primera parte en negrita y sin salto de línea
+      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`${row.Piloto}`, { bold: false }); // Imprime el valor en texto normal en la misma línea
       doc.moveDown();  
       
-      doc.text(`Fecha Partido: ${row["Fecha partido"]}`);
+      doc.font('Helvetica').fontSize(14).fillColor('#2c3e50').text(`Fecha Partido: ${row["Fecha partido"]}`);
       doc.moveDown();
       
       // Añadir un separador visual
