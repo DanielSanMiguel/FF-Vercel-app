@@ -97,6 +97,7 @@ button:disabled {
     text-align: center;
     font-weight: bold;
     min-height: 1.2em; /* Evita que el layout salte al aparecer el texto */
+    overflow-wrap: break-word;
 }
 
 /* Clases para JS */
@@ -110,6 +111,7 @@ button:disabled {
 .status-success {
     color: var(--success-color);
 }
+
 
 
 
