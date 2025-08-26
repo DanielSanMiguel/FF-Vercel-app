@@ -29,7 +29,7 @@ body {
     margin-bottom: 2rem;
 }
 .logo {
-    max-width: 200px;
+    max-width: 100px;
 }
 
 /* Contenedor principal centrado */
@@ -112,3 +112,4 @@ button:disabled {
 .status-success {
     color: var(--success-color);
 }
+
