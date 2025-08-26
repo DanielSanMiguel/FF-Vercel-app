@@ -71,13 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
           statusDiv.textContent = "Error al procesar el envío.";
           statusDiv.style.color = "red";
         }
-
+    });
 
     // Inicializar
     fetchPartidos();
 });
-
-
-
-
-
