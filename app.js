@@ -5,12 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const enviarBtn = document.getElementById("enviarBtn");
     const statusDiv = document.getElementById("status");
 
+    let partidosRecords = []; // Variable para guardar los registros de Airtable
+
     // Cargar partidos desde la Serverless Function
     async function fetchPartidos() {
         try {
             const res = await fetch("/api/partidos");
             if (!res.ok) throw new Error("No se pudo cargar los partidos");
             const records = await res.json();
+            
+            // Almacenar los registros en la variable
+            partidosRecords = records;
 
             partidoSelect.innerHTML = "";
             records.forEach(r => {
@@ -19,12 +24,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 option.textContent = `${r.fields["ID-partido"]} - ${r.fields.Piloto} (${r.fields["Fecha partido"]})`;
                 partidoSelect.appendChild(option);
             });
+
+            // Pre-seleccionar el primer partido y rellenar los campos
+            if (partidosRecords.length > 0) {
+                const primerRecord = partidosRecords[0];
+                analistaInput.value = primerRecord.fields.Analista || "";
+                mailInput.value = primerRecord.fields.Mail || "";
+            }
+
         } catch (error) {
             console.error("Error al obtener partidos:", error);
             statusDiv.textContent = "Error al cargar los partidos.";
             statusDiv.style.color = "red";
         }
     }
+
+    // Evento para precargar los campos al seleccionar un partido
+    partidoSelect.addEventListener("change", () => {
+        const selectedId = partidoSelect.value;
+        const selectedRecord = partidosRecords.find(r => r.id === selectedId);
+
+        if (selectedRecord) {
+            // Rellenar los campos con los datos del registro seleccionado
+            analistaInput.value = selectedRecord.fields.Analista || "";
+            mailInput.value = selectedRecord.fields.Mail || "";
+        }
+    });
 
     // Enviar formulario
     enviarBtn.addEventListener("click", async () => {
@@ -48,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify({ partidoId, analista, mail })
           });
         
-          // Leer la respuesta como texto primero
           const text = await res.text();
           let data;
           try {
