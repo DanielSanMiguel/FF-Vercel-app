@@ -27,7 +27,7 @@ body {
 .logo {
     display: block; /* Necesario para poder centrar con margen */
     margin: 0 auto 2rem; /* Centra horizontalmente y añade un margen inferior */
-    max-width: 400px; /* Ajusta el tamaño máximo del logo como prefieras */
+    max-width: 250px; /* Ajusta el tamaño máximo del logo como prefieras */
 }
 
 /* Contenedor principal centrado */
@@ -111,6 +111,7 @@ button:disabled {
 .status-success {
     color: var(--success-color);
 }
+
 
 
 
